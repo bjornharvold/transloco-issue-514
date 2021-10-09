@@ -1,0 +1,17 @@
+{
+  "name": "@transloco515/my-lib-one",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0"
+  },
+  "i18n": [
+      {
+        "scope": "my-lib-one",
+        "path": "src/lib/i18n"
+      }
+    ],
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "transloco515",
+  "projects": {
+    "my-lib-one": {
+      "projectType": "library",
+      "root": "libs/my-lib-one",
+      "sourceRoot": "libs/my-lib-one/src",
+      "prefix": "transloco515",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "outputs": ["dist/libs/my-lib-one"],
+          "options": {
+            "project": "libs/my-lib-one/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/my-lib-one/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/my-lib-one/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/my-lib-one"],
+          "options": {
+            "jestConfig": "libs/my-lib-one/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/my-lib-one/src/**/*.ts",
+              "libs/my-lib-one/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "transloco515": {
+      "projectType": "application",
+      "root": "apps/transloco515",
+      "sourceRoot": "apps/transloco515/src",
+      "prefix": "transloco515",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/transloco515",
+            "index": "apps/transloco515/src/index.html",
+            "main": "apps/transloco515/src/main.ts",
+            "polyfills": "apps/transloco515/src/polyfills.ts",
+            "tsConfig": "apps/transloco515/tsconfig.app.json",
+            "assets": [
+              "apps/transloco515/src/favicon.ico",
+              "apps/transloco515/src/assets"
+            ],
+            "styles": ["apps/transloco515/src/styles.scss"],
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/transloco515/src/environments/environment.ts",
+                  "with": "apps/transloco515/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "transloco515:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "transloco515:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "transloco515:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/transloco515/src/**/*.ts",
+              "apps/transloco515/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/transloco515"],
+          "options": {
+            "jestConfig": "apps/transloco515/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "transloco515-e2e": {
+      "root": "apps/transloco515-e2e",
+      "sourceRoot": "apps/transloco515-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/transloco515-e2e/cypress.json",
+            "tsConfig": "apps/transloco515-e2e/tsconfig.e2e.json",
+            "devServerTarget": "transloco515:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "transloco515:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/transloco515-e2e/**/*.{js,ts}"]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      }
+    }
+  }
+}
